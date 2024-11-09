@@ -1,9 +1,9 @@
-
 import { saveMessageToFirestore, listenToMessages } from './firebase.js';
 
 const chatBox = document.getElementById('chatBox');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
+const userTypeSelect = document.getElementById('userType');
 
 // Conecta-se ao servidor WebSocket
 const socket = new WebSocket('ws://localhost:3000');
@@ -22,10 +22,14 @@ function displayMessage(message, className) {
 // Função para enviar a mensagem
 function sendMessage() {
   const messageText = messageInput.value.trim();
+  const userType = userTypeSelect.value; // Obtém o tipo de usuário (Base 192 ou Ambulância)
+
   if (messageText) {
-    socket.send(messageText);
-    saveMessageToFirestore(messageText);  // Salva a mensagem no Firestore
-    displayMessage(messageText, 'user-message');
+    // Inclui o tipo de usuário na mensagem
+    const formattedMessage = `${userType.toUpperCase()}: ${messageText}`;
+    socket.send(formattedMessage); // Envia a mensagem via WebSocket
+    saveMessageToFirestore(formattedMessage);  // Salva a mensagem no Firestore
+    displayMessage(formattedMessage, 'user-message');
     messageInput.value = '';
   }
 }

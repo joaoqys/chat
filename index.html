@@ -8,7 +8,19 @@
 </head>
 <body>
   <div class="chat-container">
+    <!-- Selecione o usuário -->
+    <div class="user-selection">
+      <label for="userType">Escolha seu tipo:</label>
+      <select id="userType">
+        <option value="base192">Base 192</option>
+        <option value="ambulancia">Ambulância</option>
+      </select>
+    </div>
+
+    <!-- Caixa de chat -->
     <div class="chat-box" id="chatBox"></div>
+
+    <!-- Campo de mensagem -->
     <input type="text" id="messageInput" placeholder="Digite sua mensagem..." />
     <button id="sendButton">Enviar</button>
   </div>
