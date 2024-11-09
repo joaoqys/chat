@@ -1,4 +1,6 @@
 // script.js
+import { saveMessageToFirestore, listenToMessages } from './firebase.js';
+
 const chatBox = document.getElementById('chatBox');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
@@ -17,11 +19,12 @@ function displayMessage(message, className) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Envia a mensagem para o servidor WebSocket
+// Função para enviar a mensagem
 function sendMessage() {
   const messageText = messageInput.value.trim();
   if (messageText) {
     socket.send(messageText);
+    saveMessageToFirestore(messageText);  // Salva a mensagem no Firestore
     displayMessage(messageText, 'user-message');
     messageInput.value = '';
   }
@@ -42,3 +45,9 @@ messageInput.addEventListener('keydown', function(event) {
 
 // Adiciona um evento de clique para o botão "Enviar"
 sendButton.addEventListener('click', sendMessage);
+
+// Escuta mensagens em tempo real do Firestore e exibe no chat
+listenToMessages((messages) => {
+  chatBox.innerHTML = ""; // Limpa o chat para evitar duplicação
+  messages.forEach((msg) => displayMessage(msg.text, 'other-message'));
+});
