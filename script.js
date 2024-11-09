@@ -3,8 +3,8 @@ const chatBox = document.getElementById('chatBox');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
 
-// Atualize o URL para o WebSocket do Render
-const socket = new WebSocket('wss://api-chat-7lm4.onrender.com'); // Use 'wss://' para conexão segura
+// Conecta-se ao servidor WebSocket
+const socket = new WebSocket('ws://localhost:3000');
 
 // Função para exibir uma mensagem no chat
 function displayMessage(message, className) {
