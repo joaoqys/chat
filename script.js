@@ -1,4 +1,4 @@
-// script.js
+
 import { saveMessageToFirestore, listenToMessages } from './firebase.js';
 
 const chatBox = document.getElementById('chatBox');
